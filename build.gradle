@@ -47,11 +47,13 @@ jar {
 publishing {
     repositories {
         maven {
-            artifactId = 'plugin'
+            // artifactId = 'plugin'
             // change to point to your repo, e.g. http://my.org/repo
             url = "https://maven.pkg.github.com/sukso96100/minecraft-yoosamarble"
-            username 'sukso96100'
-            password '$System.env.GITHUB_TOKEN'
+            credentials {
+                username 'sukso96100'
+                password '$System.env.GITHUB_TOKEN'
+            }
         }
     }
 }
