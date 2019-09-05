@@ -6,12 +6,15 @@
  * User Manual available at https://docs.gradle.org/5.3.1/userguide/tutorial_java_projects.html
  */
 
+
+
 plugins {
     // Apply the java plugin to add support for Java
     id 'java'
 
     // Apply the application plugin to add support for building an application
     id 'application'
+    id 'maven-publish'
 }
 
 repositories {
@@ -25,9 +28,34 @@ dependencies {
     implementation 'com.google.guava:guava:27.0.1-jre'
 
     // Use JUnit test framework
-    testImplementation 'junit:junit:4.12'
-    compile files('libs/spigot-1.13.2.jar')
+    // testImplementation 'junit:junit:4.12'
+    compile fileTree(dir: "libs", includes: ['*.jar'])
+
 }
 
-// Define the main class for the application
-mainClassName = 'yoosamarble.App'
+jar {
+    manifest {
+        attributes 'Main-Class': 'xyz.youngbin.yoosamarble.App'
+        }
+        from {
+            configurations.compile.collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+    }
+}
+
+publishing {
+    repositories {
+        maven {
+            artifactId = 'plugin'
+            // change to point to your repo, e.g. http://my.org/repo
+            url = "https://maven.pkg.github.com/sukso96100/minecraft-yoosamarble"
+            username 'sukso96100'
+            password '$System.env.GITHUB_TOKEN'
+        }
+    }
+}
+
+ // Define the main class for the application
+
+mainClassName = 'xyz.youngbin.yoosamarble.App'
