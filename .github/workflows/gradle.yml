@@ -20,4 +20,4 @@ jobs:
     - name: Publish with Gradle
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: chmod u+x gradlew && ./gradlew publish
+      run: chmod u+x gradlew && ./gradlew uploadArchives

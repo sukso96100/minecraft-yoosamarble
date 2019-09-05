@@ -14,7 +14,7 @@ plugins {
 
     // Apply the application plugin to add support for building an application
     id 'application'
-    id 'maven-publish'
+    id 'maven'
 }
 
 repositories {
@@ -44,18 +44,23 @@ jar {
     }
 }
 
-publishing {
+uploadArchives {
     repositories {
-        maven {
-            // artifactId = 'plugin'
-            // change to point to your repo, e.g. http://my.org/repo
-            url = "https://maven.pkg.github.com/sukso96100/minecraft-yoosamarble"
-            credentials {
-                username 'sukso96100'
-                password '$System.env.GITHUB_TOKEN'
+        mavenDeployer {
+            repository(url: "https://maven.pkg.github.com/sukso96100/minecraft-yoosamarble"){
+                authentication(userName: 'sukso96100', password: "$System.env.GITHUB_TOKEN")
             }
         }
     }
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+ 
+artifacts {
+    archives sourcesJar
 }
 
  // Define the main class for the application
